@@ -33,13 +33,16 @@ class TicTacToe:
             print("Текущее состояние поля:")
             self.print_field()
             print("Введите координаты:")
-            row, column = map(int, input().split())
+            try:
+                row, column = map(int, input().split())
 
-            if self.check_correct(row, column):
-                self.make_move(row, column)
-                break
-            else:
-                print("Введены неверные координаты. Попробуйте снова.")
+                if self.check_correct(row, column):
+                    self.make_move(row, column)
+                    break
+                else:
+                    print("Введены неверные координаты. Попробуйте снова.")
+            except ValueError:
+                print("Неверный формат ввода. Попробуйте снова.")      
 
     # Функция, делающая ход
     def make_move(self, row, column):
