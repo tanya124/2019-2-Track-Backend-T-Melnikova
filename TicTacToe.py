@@ -97,3 +97,8 @@ class TicTacToe:
 
         if count_ch_in_right == self.dim or count_ch_in_left == self.dim:
             self.game_over = True
+
+
+if __name__== "__main__":
+    NEW_GAME = TicTacToe(3)
+    NEW_GAME.begin_game()
