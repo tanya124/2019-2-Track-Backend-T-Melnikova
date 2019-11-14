@@ -11,17 +11,18 @@ def start_page(request):
         return HttpResponseNotAllowed(['GET'])
 
 
-def profile(request):
+def profile(request, user_id):
     if request.method == 'GET':
-        return JsonResponse({'my' : 'profile'})
+        user = User.objects.values('id', 'nick', 'avatar').get(id=user_id)
+        return JsonResponse({'profile' : list(user)})
     else:
         return HttpResponseNotAllowed(['GET'])
 
 
-def search_user(request, user_id):
+def search_user(request, nick):
     if request.method == 'GET':
         user = User.objects.values('id', 'nick', 'avatar')
-        user = get_object_or_404(user, id = user_id)
+        user = user.get(nick__icontains = nick)
         return JsonResponse({'user': dict(user)})
     else:
         return HttpResponseNotAllowed(['GET'])

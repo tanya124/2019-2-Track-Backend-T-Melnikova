@@ -15,8 +15,8 @@ class User(AbstractUser):
 class Member(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="users id")
     chat = models.ForeignKey('chats.Chat', on_delete=models.CASCADE, verbose_name="chat id")
-    new_messages = models.BooleanField(default=True)
-    last_read_message = models.ForeignKey('chats.Message', on_delete=models.PROTECT, verbose_name="last read message")
+    new_messages = models.BooleanField(default=True, null=True)
+    last_read_message = models.ForeignKey('chats.Message', on_delete=models.PROTECT, verbose_name="last read message", null=True)
 
     class Meta:
         verbose_name = 'Участник чата'
