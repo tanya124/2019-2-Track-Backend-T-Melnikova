@@ -34,12 +34,8 @@ def create_chat(request):
         form = ChatForm(request.POST)
 
         if form.is_valid():
-            user_id = request.POST.get('user_id', False)
-
-            if user_id is False:
-                return HttpResponseBadRequest
-
-            is_group_chat = request.POST.get('is_group_chat', False)
+            user_id = request.POST.get('user_id')
+            is_group_chat = request.POST.get('is_group_chat')
             topic = request.POST.get('topic', 'new chat')
             cur_user = User.objects.get(id=user_id)
 
@@ -55,14 +51,10 @@ def create_chat(request):
 def send_message(request):
     if request.method == 'POST':
         form = MessageForm(request.POST)
+        chat_id = request.POST.get('chat')
+        user_id = request.POST.get('user')
         if form.is_valid():
-            chat_id = request.POST.get('chat', False)
-            user_id = request.POST.get('user', False)
-            content = request.POST.get('content', False)
-
-            if chat_id is False or user_id is False or content is False:
-                return HttpResponseBadRequest
-
+            content = request.POST.get('content')
             chat = Chat.objects.get(id=chat_id)
             user = User.objects.get(id=user_id)
 
@@ -87,23 +79,14 @@ def get_list_message(request, chat_id):
 def read_message(request):
     if request.method == 'POST':
         form = MemberForm(request.POST)
+        user_id = request.POST.get('user')
+        chat_id = request.POST.get('chat')
         if form.is_valid():
-            member_id = request.POST.get('member_id', False)
-            if member_id is False:
-                return HttpResponseBadRequest
-            member = Member.objects.get(id=member_id)
-            chat_id = member.chat.id
-            messages_from_chat = Message.objects.all().filter(chat_id=chat_id).order_by('added_at')
+            member = Member.objects.all().filter(user=user_id).filter(chat=chat_id)
+            messages_from_chat = Message.objects.all().filter(chat=chat_id).order_by('added_at')
             member.last_read_message = messages_from_chat.last()
             return JsonResponse({'last read message': member.last_read_message.id})
         else:
             return JsonResponse({'errors':form.errors}, status=400)
     else:
         return HttpResponseNotAllowed(['POST'])
-
-# HW7
-# 1)send_message +
-# 2)get_list_messages_of_chat +
-# 3)read_message +
-# 4)валидировать с помощью форм
-# 5)переписать заглушки

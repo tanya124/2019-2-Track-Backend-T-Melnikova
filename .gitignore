@@ -3,3 +3,4 @@ __pycache__/
 messenger/application/.local_settings.py
 messenger/.idea/
 messenger/__pycache__/
+config
