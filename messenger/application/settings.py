@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chats',
-    'users'
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -74,14 +74,6 @@ WSGI_APPLICATION = 'application.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-'''
 
 DATABASES = {
     'default': {
@@ -128,6 +120,11 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_ENDPOINT_URL = 'http://hb.bizmrg.com'
+AWS_ACCESS_KEY_ID = 'oAwVQ9qymdsdMoH2tTBuCD'
+AWS_SECRET_ACCESS_KEY = 'ojUXe6Yza37BSYsTP84rkY5ST4KJHmVdnnic9oTrvRj'
+AWS_STORAGE_BUCKET_NAME = 'track_menikova'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

@@ -45,12 +45,11 @@ class Attachment(models.Model):
         verbose_name="message id",
     )
     type = models.CharField(
-        max_length=10,
+        max_length=30,
         blank=False,
     )
-    url = models.URLField(
-        max_length=200,
-        blank=False,
+    url = models.FileField(
+        upload_to='attachments/'
     )
 
     class Meta:

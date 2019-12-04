@@ -2,8 +2,9 @@ from django.http import JsonResponse
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
 from chats.models import Chat, Message
 from users.models import Member, User
-from chats.forms import ChatForm, MessageForm, MemberForm
-
+from chats.forms import ChatForm, MessageForm, MemberForm, AttachmentForm
+from application.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME
+import boto3
 
 def chat_list(request):
     if request.method == 'GET':
@@ -76,6 +77,7 @@ def get_list_message(request, chat_id):
         return HttpResponseNotAllowed(['GET'])
 
 
+
 def read_message(request):
     if request.method == 'POST':
         form = MemberForm(request.POST)
@@ -88,5 +90,42 @@ def read_message(request):
             return JsonResponse({'last read message': member.last_read_message.id})
         else:
             return JsonResponse({'errors':form.errors}, status=400)
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+
+def uplaod_file(filename):
+    file_descriptor = open(filename, mode='rb')
+    session = boto3.session.Session()
+    s3_client = session.client(
+        service_name='s3',
+        endpoint_url='http://hb.bizmrg.com',
+        aws_access_key_id=AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    )
+    key = 'attachment/' + file_descriptor.name.split('/')[-1]
+    return s3_client.put_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=key, Body=file_descriptor.read())
+
+
+def attach_file(request):
+    if request.method == 'POST':
+        file_path = request.POST.get('path')
+        url = uplaod_file(file_path)
+        form = AttachmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            attachment = form.save()
+            attachment.url = url
+            return JsonResponse({
+                'attachment': {
+                    'id': attachment.id,
+                    'chat_id': attachment.chat.id,
+                    'user_id': attachment.user.id,
+                    'message': attachment.message.content,
+                    'type': attachment.type,
+                    'url': attachment.url.url,
+                }
+            })
+        else:
+            return JsonResponse({'errors': form.errors}, status=400)
     else:
         return HttpResponseNotAllowed(['POST'])

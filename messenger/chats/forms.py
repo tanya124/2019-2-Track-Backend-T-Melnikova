@@ -1,7 +1,6 @@
 from django import forms
-from chats.models import Chat, Message
+from chats.models import Chat, Message, Attachment
 from users.models import Member, User
-
 
 class ChatForm(forms.Form):
     class Meta:
@@ -37,3 +36,9 @@ class MemberForm(forms.ModelForm):
         if chat is None:
             self._errors['chat'] = self.error_class(["Chat does not exist"])
         return  self.cleaned_data
+
+
+class AttachmentForm(forms.ModelForm):
+    class Meta:
+        model = Attachment
+        fields = ['chat', 'user', 'message']
