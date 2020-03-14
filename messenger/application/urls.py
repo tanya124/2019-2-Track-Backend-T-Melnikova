@@ -23,8 +23,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chats/', include('chats.urls')),
     path('users/', include('users.urls')),
-    path('login/', views.login, name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    #path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('login/', views.my_login, name='login'),
+    path('logout/', views.my_logout, name='logout'),
     path('social_auth/', include('social_django.urls', namespace='social')),
     path('', views.home, name='home'),
+    #path('register/', views.RegisterFormView.as_view(), name='register'),
+    path('register/', views.register, name='register'),
 ]

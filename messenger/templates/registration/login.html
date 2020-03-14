@@ -1,0 +1,35 @@
+{% extends  'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="card">
+<div class="card-body">
+<h4 class="card-title">Log in to your account</h4>
+
+<form method="post">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}">
+
+{{ form|crispy }}
+
+<button type="submit" class="btn btn-primary btn-block">Log in</button>
+</form>
+</div>
+</div>
+{% endblock %}
+
+{#<!--{% extends 'base.html' %}#}
+{#{% block title %} Sign in {% endblock %}#}
+{#{% block content %}#}
+{#<div class="row">#}
+{#    <div class="row">#}
+{#        <div class="col-md-8 mx-auto social-container my-2 order-md-1">#}
+{#            <button class="btn btn-primary mb-2">#}
+{#            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-social-icon btn-lg btn-facebook">#}
+{#                Login with facebook#}
+{#            </a>#}
+{#            </button>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}-->#}

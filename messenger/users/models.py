@@ -6,6 +6,8 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     nick = models.CharField(max_length=128, blank=True, default='')
     avatar = models.ImageField(upload_to='avatar/', blank=True, null=True)
+    #login = models.CharField(max_length=128, blank=True, null=False)
+    #password = models.CharField(max_length=128, blank=True, null=False)
 
     class Meta:
         verbose_name = 'Пользователь'

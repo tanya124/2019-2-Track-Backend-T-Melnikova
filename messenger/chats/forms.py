@@ -5,7 +5,7 @@ from users.models import Member, User
 class ChatForm(forms.Form):
     class Meta:
         model = Chat
-        fields = ['is_group_chat', 'topic']
+        fields = ['is_group_chat', 'topic', 'last_message']
 
 
 class MessageForm(forms.ModelForm):
@@ -27,14 +27,11 @@ class MessageForm(forms.ModelForm):
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
-        #fields = ['user', 'chat']
-        fields = ['chat']
+        fields = ['chat', 'user']
 
     def clean(self):
-        #member = self.cleaned_data.get('user')
         chat = self.cleaned_data.get('chat')
-        #if member is None:
-        #    self._errors['user'] = self.error_class(["Member does not exist"])
+
         if chat is None:
             self._errors['chat'] = self.error_class(["Chat does not exist"])
         return  self.cleaned_data
