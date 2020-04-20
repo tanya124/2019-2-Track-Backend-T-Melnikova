@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chats',
     'users',
+    'blog',
     'social_django',
     'sslserver',
     'crispy_forms',
@@ -91,7 +92,7 @@ DATABASES = {
         'HOST': '0.0.0.0',
         'PORT': '5432',
         'TEST': {
-            'NAME': 'test_tanya_m_db',
+            'NAME': 'test1_tanya_m_db',
         },
     }
 }

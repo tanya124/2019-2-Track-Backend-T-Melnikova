@@ -6,6 +6,7 @@ from chats.models import Chat
 from django.urls import reverse
 from chats.factories import ChatsFactory, MessageFactory, MemberFactory
 from users.factories import UserFactory
+from mock import patch
 
 
 class ChatsTest(TestCase):
@@ -78,6 +79,13 @@ class ChatsTest(TestCase):
         response = self.client.post(reverse('read_message'), {'chat': self.chats[0].id, 'user': self.user.id})
         self.assertTrue(response.status_code == 200)
         #content = json.loads(response.content)
+
+    @patch('chats.views.upload_file')
+    def test_attach_file(self, upload_file_mock):
+        upload_file_mock.return_value = 'attachment/'
+        response = self.client.post(reverse('attach_file'), {'chat': self.chats[0].id, 'user': self.user.id, 'message': self.messages_from_chat_0[0].id, 'path': '/home/tanya/track/2019-2-Track-Backend-T-Melnikova/test/cat2.jpg'})
+        self.assertTrue(response.status_code == 200)
+        self.assertEqual(upload_file_mock.call_count, 1)
 
 
     def tearDown(self):

@@ -40,5 +40,5 @@ class MemberForm(forms.ModelForm):
 class AttachmentForm(forms.ModelForm):
     class Meta:
         model = Attachment
-        #fields = ['chat', 'user', 'message']
-        fields = ['chat', 'message']
+        fields = ['chat', 'user', 'message']
+        #fields = ['chat', 'message']
