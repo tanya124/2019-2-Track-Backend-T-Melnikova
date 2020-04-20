@@ -20,7 +20,7 @@ def chat_list(request):
 @login_required
 def contacts_list(request):
     if request.method == 'GET':
-        users = User.objects.values('id', 'nick', 'avatar')
+        users = User.objects.values('id', 'nick')
         return JsonResponse({'users' : list(users)})
     else:
         return HttpResponseNotAllowed(['GET'])
@@ -53,7 +53,7 @@ def create_chat(request):
             new_chat = Chat.objects.create(is_group_chat=is_group_chat, topic=topic, last_message=last_message)
             new_member = Member.objects.create(user=cur_user, chat=new_chat, new_messages=0)
             new_member_companion = Member.objects.create(user=companion, chat=new_chat, new_messages=0)
-            return JsonResponse({'chat name':new_chat.topic}, status=201)
+            return JsonResponse({'chat_name':new_chat.topic}, status=201)
         else:
             return JsonResponse({'errors':form.errors}, status=400)
     else:

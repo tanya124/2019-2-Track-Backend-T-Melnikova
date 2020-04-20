@@ -14,17 +14,18 @@ def start_page(request):
 @login_required
 def profile(request):
     if request.method == 'GET':
-        user = User.objects.values('id', 'nick', 'avatar').get(id=request.user.id)
-        return JsonResponse({'profile' : list(user)})
+        return JsonResponse({
+            'profile' : {'user_id': request.user.id, 'username': request.user.username}
+        })
     else:
         return HttpResponseNotAllowed(['GET'])
 
 @login_required
 def search_user(request, nick):
     if request.method == 'GET':
-        user = User.objects.values('id', 'nick', 'avatar')
-        user = user.get(nick__icontains = nick)
-        return JsonResponse({'user': dict(user)})
+        user = User.objects.values('id', 'username', 'nick')
+        user = user.filter(nick__icontains = nick)
+        return JsonResponse({'users': list(user)})
     else:
         return HttpResponseNotAllowed(['GET'])
 

@@ -90,6 +90,9 @@ DATABASES = {
          'PASSWORD': '123',
         'HOST': '0.0.0.0',
         'PORT': '5432',
+        'TEST': {
+            'NAME': 'test_tanya_m_db',
+        },
     }
 }
 
