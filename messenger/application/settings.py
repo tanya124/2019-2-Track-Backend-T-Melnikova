@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'social_django',
     'sslserver',
     'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

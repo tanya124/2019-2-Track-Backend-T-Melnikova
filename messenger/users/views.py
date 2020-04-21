@@ -2,7 +2,12 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponseNotAllowed
 from django.contrib.auth.decorators import login_required
-from users.models import User
+from .models import User
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
+from .serializers import UserSerializer
+
 
 @login_required
 def start_page(request):
@@ -29,3 +34,23 @@ def search_user(request, nick):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    #http://127.0.0.1:8000/users/api/users/profile/
+    @action(methods=['get'], detail=False)
+    def profile(self, request):
+        user = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(user, many=False)
+        return Response({"user": serializer.data})
+
+
+    #http://127.0.0.1:8000/users/api/users/search_user/?nick=user_1
+    @action(methods=['get'], detail=False)
+    def search_user(self, request):
+        nick = request.GET['nick']
+        user = User.objects.filter(nick__icontains=nick)
+        serializer = UserSerializer(user, many=True)
+        return Response({"user": serializer.data})

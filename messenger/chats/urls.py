@@ -1,6 +1,11 @@
-from django.urls import path
-from chats.views import chat_list, contacts_list, chat_page, create_chat, send_message, get_list_message
-from chats.views import read_message, attach_file, add_member_to_chat
+from django.urls import path, include
+from .views import chat_list, contacts_list, chat_page, create_chat, send_message, get_list_message
+from .views import read_message, attach_file, add_member_to_chat
+from .views import ChatViewSet
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('chats', ChatViewSet, basename='chat')
 
 urlpatterns = [
         path('', chat_list, name='chat_list'),
@@ -12,4 +17,5 @@ urlpatterns = [
         path('read_message/', read_message, name='read_message'),
         path('attach/', attach_file, name='attach_file'),
         path('add_member_to_chat/', add_member_to_chat, name='add_member_to_chat'),
+        path('api/', include(router.urls))
         ]
