@@ -1,0 +1,1870 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.7
+-- Dumped by pg_dump version 11.7
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO tanya_m;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO tanya_m;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO tanya_m;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO tanya_m;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO tanya_m;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO tanya_m;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: chats_attachment; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.chats_attachment (
+    id integer NOT NULL,
+    type character varying(30) NOT NULL,
+    url character varying(100) NOT NULL,
+    chat_id integer NOT NULL,
+    message_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.chats_attachment OWNER TO tanya_m;
+
+--
+-- Name: chats_attachment_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.chats_attachment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.chats_attachment_id_seq OWNER TO tanya_m;
+
+--
+-- Name: chats_attachment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.chats_attachment_id_seq OWNED BY public.chats_attachment.id;
+
+
+--
+-- Name: chats_chat; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.chats_chat (
+    id integer NOT NULL,
+    is_group_chat boolean NOT NULL,
+    topic character varying(128) NOT NULL,
+    last_message character varying(4096) NOT NULL
+);
+
+
+ALTER TABLE public.chats_chat OWNER TO tanya_m;
+
+--
+-- Name: chats_chat_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.chats_chat_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.chats_chat_id_seq OWNER TO tanya_m;
+
+--
+-- Name: chats_chat_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.chats_chat_id_seq OWNED BY public.chats_chat.id;
+
+
+--
+-- Name: chats_message; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.chats_message (
+    id integer NOT NULL,
+    content character varying(4096) NOT NULL,
+    added_at timestamp with time zone NOT NULL,
+    chat_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.chats_message OWNER TO tanya_m;
+
+--
+-- Name: chats_message_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.chats_message_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.chats_message_id_seq OWNER TO tanya_m;
+
+--
+-- Name: chats_message_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.chats_message_id_seq OWNED BY public.chats_message.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO tanya_m;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO tanya_m;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO tanya_m;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO tanya_m;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO tanya_m;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO tanya_m;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO tanya_m;
+
+--
+-- Name: social_auth_association; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.social_auth_association (
+    id integer NOT NULL,
+    server_url character varying(255) NOT NULL,
+    handle character varying(255) NOT NULL,
+    secret character varying(255) NOT NULL,
+    issued integer NOT NULL,
+    lifetime integer NOT NULL,
+    assoc_type character varying(64) NOT NULL
+);
+
+
+ALTER TABLE public.social_auth_association OWNER TO tanya_m;
+
+--
+-- Name: social_auth_association_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.social_auth_association_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.social_auth_association_id_seq OWNER TO tanya_m;
+
+--
+-- Name: social_auth_association_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.social_auth_association_id_seq OWNED BY public.social_auth_association.id;
+
+
+--
+-- Name: social_auth_code; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.social_auth_code (
+    id integer NOT NULL,
+    email character varying(254) NOT NULL,
+    code character varying(32) NOT NULL,
+    verified boolean NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.social_auth_code OWNER TO tanya_m;
+
+--
+-- Name: social_auth_code_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.social_auth_code_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.social_auth_code_id_seq OWNER TO tanya_m;
+
+--
+-- Name: social_auth_code_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.social_auth_code_id_seq OWNED BY public.social_auth_code.id;
+
+
+--
+-- Name: social_auth_nonce; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.social_auth_nonce (
+    id integer NOT NULL,
+    server_url character varying(255) NOT NULL,
+    "timestamp" integer NOT NULL,
+    salt character varying(65) NOT NULL
+);
+
+
+ALTER TABLE public.social_auth_nonce OWNER TO tanya_m;
+
+--
+-- Name: social_auth_nonce_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.social_auth_nonce_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.social_auth_nonce_id_seq OWNER TO tanya_m;
+
+--
+-- Name: social_auth_nonce_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.social_auth_nonce_id_seq OWNED BY public.social_auth_nonce.id;
+
+
+--
+-- Name: social_auth_partial; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.social_auth_partial (
+    id integer NOT NULL,
+    token character varying(32) NOT NULL,
+    next_step smallint NOT NULL,
+    backend character varying(32) NOT NULL,
+    data text NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    CONSTRAINT social_auth_partial_next_step_check CHECK ((next_step >= 0))
+);
+
+
+ALTER TABLE public.social_auth_partial OWNER TO tanya_m;
+
+--
+-- Name: social_auth_partial_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.social_auth_partial_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.social_auth_partial_id_seq OWNER TO tanya_m;
+
+--
+-- Name: social_auth_partial_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.social_auth_partial_id_seq OWNED BY public.social_auth_partial.id;
+
+
+--
+-- Name: social_auth_usersocialauth; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.social_auth_usersocialauth (
+    id integer NOT NULL,
+    provider character varying(32) NOT NULL,
+    uid character varying(255) NOT NULL,
+    extra_data text NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.social_auth_usersocialauth OWNER TO tanya_m;
+
+--
+-- Name: social_auth_usersocialauth_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.social_auth_usersocialauth_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.social_auth_usersocialauth_id_seq OWNER TO tanya_m;
+
+--
+-- Name: social_auth_usersocialauth_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.social_auth_usersocialauth_id_seq OWNED BY public.social_auth_usersocialauth.id;
+
+
+--
+-- Name: users_member; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.users_member (
+    id integer NOT NULL,
+    new_messages boolean,
+    chat_id integer NOT NULL,
+    last_read_message_id integer,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.users_member OWNER TO tanya_m;
+
+--
+-- Name: users_member_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.users_member_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_member_id_seq OWNER TO tanya_m;
+
+--
+-- Name: users_member_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.users_member_id_seq OWNED BY public.users_member.id;
+
+
+--
+-- Name: users_user; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.users_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL,
+    nick character varying(128) NOT NULL,
+    avatar character varying(100)
+);
+
+
+ALTER TABLE public.users_user OWNER TO tanya_m;
+
+--
+-- Name: users_user_groups; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.users_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.users_user_groups OWNER TO tanya_m;
+
+--
+-- Name: users_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.users_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_user_groups_id_seq OWNER TO tanya_m;
+
+--
+-- Name: users_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.users_user_groups_id_seq OWNED BY public.users_user_groups.id;
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.users_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_user_id_seq OWNER TO tanya_m;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users_user.id;
+
+
+--
+-- Name: users_user_user_permissions; Type: TABLE; Schema: public; Owner: tanya_m
+--
+
+CREATE TABLE public.users_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.users_user_user_permissions OWNER TO tanya_m;
+
+--
+-- Name: users_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: tanya_m
+--
+
+CREATE SEQUENCE public.users_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_user_user_permissions_id_seq OWNER TO tanya_m;
+
+--
+-- Name: users_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tanya_m
+--
+
+ALTER SEQUENCE public.users_user_user_permissions_id_seq OWNED BY public.users_user_user_permissions.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: chats_attachment id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_attachment ALTER COLUMN id SET DEFAULT nextval('public.chats_attachment_id_seq'::regclass);
+
+
+--
+-- Name: chats_chat id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_chat ALTER COLUMN id SET DEFAULT nextval('public.chats_chat_id_seq'::regclass);
+
+
+--
+-- Name: chats_message id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_message ALTER COLUMN id SET DEFAULT nextval('public.chats_message_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: social_auth_association id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_association ALTER COLUMN id SET DEFAULT nextval('public.social_auth_association_id_seq'::regclass);
+
+
+--
+-- Name: social_auth_code id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_code ALTER COLUMN id SET DEFAULT nextval('public.social_auth_code_id_seq'::regclass);
+
+
+--
+-- Name: social_auth_nonce id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_nonce ALTER COLUMN id SET DEFAULT nextval('public.social_auth_nonce_id_seq'::regclass);
+
+
+--
+-- Name: social_auth_partial id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_partial ALTER COLUMN id SET DEFAULT nextval('public.social_auth_partial_id_seq'::regclass);
+
+
+--
+-- Name: social_auth_usersocialauth id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_usersocialauth ALTER COLUMN id SET DEFAULT nextval('public.social_auth_usersocialauth_id_seq'::regclass);
+
+
+--
+-- Name: users_member id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_member ALTER COLUMN id SET DEFAULT nextval('public.users_member_id_seq'::regclass);
+
+
+--
+-- Name: users_user id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user ALTER COLUMN id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
+
+
+--
+-- Name: users_user_groups id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_groups ALTER COLUMN id SET DEFAULT nextval('public.users_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: users_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.users_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add content type	4	add_contenttype
+14	Can change content type	4	change_contenttype
+15	Can delete content type	4	delete_contenttype
+16	Can view content type	4	view_contenttype
+17	Can add session	5	add_session
+18	Can change session	5	change_session
+19	Can delete session	5	delete_session
+20	Can view session	5	view_session
+21	Can add Вложение	6	add_attachment
+22	Can change Вложение	6	change_attachment
+23	Can delete Вложение	6	delete_attachment
+24	Can view Вложение	6	view_attachment
+25	Can add Чат	7	add_chat
+26	Can change Чат	7	change_chat
+27	Can delete Чат	7	delete_chat
+28	Can view Чат	7	view_chat
+29	Can add Сообщение	8	add_message
+30	Can change Сообщение	8	change_message
+31	Can delete Сообщение	8	delete_message
+32	Can view Сообщение	8	view_message
+33	Can add Пользователь	9	add_user
+34	Can change Пользователь	9	change_user
+35	Can delete Пользователь	9	delete_user
+36	Can view Пользователь	9	view_user
+37	Can add Участник чата	10	add_member
+38	Can change Участник чата	10	change_member
+39	Can delete Участник чата	10	delete_member
+40	Can view Участник чата	10	view_member
+41	Can add association	11	add_association
+42	Can change association	11	change_association
+43	Can delete association	11	delete_association
+44	Can view association	11	view_association
+45	Can add code	12	add_code
+46	Can change code	12	change_code
+47	Can delete code	12	delete_code
+48	Can view code	12	view_code
+49	Can add nonce	13	add_nonce
+50	Can change nonce	13	change_nonce
+51	Can delete nonce	13	delete_nonce
+52	Can view nonce	13	view_nonce
+53	Can add user social auth	14	add_usersocialauth
+54	Can change user social auth	14	change_usersocialauth
+55	Can delete user social auth	14	delete_usersocialauth
+56	Can view user social auth	14	view_usersocialauth
+57	Can add partial	15	add_partial
+58	Can change partial	15	change_partial
+59	Can delete partial	15	delete_partial
+60	Can view partial	15	view_partial
+\.
+
+
+--
+-- Data for Name: chats_attachment; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.chats_attachment (id, type, url, chat_id, message_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: chats_chat; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.chats_chat (id, is_group_chat, topic, last_message) FROM stdin;
+30	f	chat_1	no
+31	f	chat_2	no
+32	f	test_chat	empty
+33	f	dsdsd	dsdsd
+\.
+
+
+--
+-- Data for Name: chats_message; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.chats_message (id, content, added_at, chat_id, user_id) FROM stdin;
+28	1_messag_to_chat_1	2020-03-14 00:05:28.049632+03	30	14
+29	1_mess_to_chat2	2020-03-14 00:06:38.656354+03	31	14
+30	gospodizachemmnevseeto	2020-03-14 03:01:57.81201+03	30	6
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+68	2020-03-13 20:48:20.326246+03	29	Chat object (29)	3		7	6
+69	2020-03-13 20:48:20.379365+03	28	Chat object (28)	3		7	6
+70	2020-03-13 21:18:13.436771+03	12		3		9	6
+71	2020-03-14 00:02:52.925149+03	30	Chat object (30)	1	[{"added": {}}]	7	6
+72	2020-03-14 00:03:12.40589+03	31	Chat object (31)	1	[{"added": {}}]	7	6
+73	2020-03-14 00:05:28.084084+03	28	Message object (28)	1	[{"added": {}}]	8	6
+74	2020-03-14 00:05:51.466008+03	14	Member object (14)	1	[{"added": {}}]	10	6
+75	2020-03-14 00:06:07.653201+03	15	Member object (15)	1	[{"added": {}}]	10	6
+76	2020-03-14 00:06:38.657175+03	29	Message object (29)	1	[{"added": {}}]	8	6
+77	2020-03-14 00:06:53.16922+03	16	Member object (16)	1	[{"added": {}}]	10	6
+78	2020-03-14 00:07:14.327265+03	17	Member object (17)	1	[{"added": {}}]	10	6
+79	2020-03-14 01:56:40.394655+03	18	Member object (18)	1	[{"added": {}}]	10	6
+80	2020-04-20 01:19:10.261474+03	18	user_11	1	[{"added": {}}]	9	6
+57	2020-03-13 20:46:44.65372+03	13	Member object (13)	3		10	6
+58	2020-03-13 20:46:45.042929+03	12	Member object (12)	3		10	6
+59	2020-03-13 20:46:45.053499+03	11	Member object (11)	3		10	6
+60	2020-03-13 20:46:45.064668+03	10	Member object (10)	3		10	6
+61	2020-03-13 20:47:30.717669+03	7		3		9	6
+62	2020-03-13 20:47:30.733218+03	5	kek	3		9	6
+63	2020-03-13 20:47:30.743447+03	4	tanyaM	3		9	6
+64	2020-03-13 20:47:30.754547+03	3	tanya	3		9	6
+65	2020-03-13 20:47:30.766346+03	2	ivan	3		9	6
+66	2020-03-13 20:47:30.77689+03	1	пупа	3		9	6
+67	2020-03-13 20:47:30.787996+03	0	лупа	3		9	6
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	contenttypes	contenttype
+5	sessions	session
+6	chats	attachment
+7	chats	chat
+8	chats	message
+9	users	user
+10	users	member
+11	social_django	association
+12	social_django	code
+13	social_django	nonce
+14	social_django	usersocialauth
+15	social_django	partial
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	chats	0001_initial	2019-11-07 18:44:08.803804+03
+2	contenttypes	0001_initial	2019-11-07 18:44:09.015692+03
+3	contenttypes	0002_remove_content_type_name	2019-11-07 18:44:09.108867+03
+4	auth	0001_initial	2019-11-07 18:44:09.523629+03
+5	auth	0002_alter_permission_name_max_length	2019-11-07 18:44:09.841244+03
+6	auth	0003_alter_user_email_max_length	2019-11-07 18:44:09.878562+03
+7	auth	0004_alter_user_username_opts	2019-11-07 18:44:09.895744+03
+8	auth	0005_alter_user_last_login_null	2019-11-07 18:44:09.904795+03
+9	auth	0006_require_contenttypes_0002	2019-11-07 18:44:09.911569+03
+10	auth	0007_alter_validators_add_error_messages	2019-11-07 18:44:09.928987+03
+11	auth	0008_alter_user_username_max_length	2019-11-07 18:44:09.938369+03
+12	auth	0009_alter_user_last_name_max_length	2019-11-07 18:44:09.949951+03
+13	auth	0010_alter_group_name_max_length	2019-11-07 18:44:10.00549+03
+14	auth	0011_update_proxy_permissions	2019-11-07 18:44:10.05895+03
+15	users	0001_initial	2019-11-07 18:44:10.394372+03
+16	admin	0001_initial	2019-11-07 18:44:10.972532+03
+17	admin	0002_logentry_remove_auto_add	2019-11-07 18:44:11.117472+03
+18	admin	0003_logentry_add_action_flag_choices	2019-11-07 18:44:11.140668+03
+19	chats	0002_auto_20191107_1446	2019-11-07 18:44:11.20232+03
+20	sessions	0001_initial	2019-11-07 18:44:11.563099+03
+21	users	0002_auto_20191114_1720	2019-11-14 20:20:25.278761+03
+22	users	0003_auto_20191114_1743	2019-11-14 20:43:28.864298+03
+23	chats	0003_auto_20191204_2026	2019-12-04 23:26:23.388894+03
+24	default	0001_initial	2019-12-05 12:53:36.770645+03
+25	social_auth	0001_initial	2019-12-05 12:53:36.790177+03
+26	default	0002_add_related_name	2019-12-05 12:53:37.563228+03
+27	social_auth	0002_add_related_name	2019-12-05 12:53:37.571123+03
+28	default	0003_alter_email_max_length	2019-12-05 12:53:37.619736+03
+29	social_auth	0003_alter_email_max_length	2019-12-05 12:53:37.623665+03
+30	default	0004_auto_20160423_0400	2019-12-05 12:53:37.688155+03
+31	social_auth	0004_auto_20160423_0400	2019-12-05 12:53:37.691836+03
+32	social_auth	0005_auto_20160727_2333	2019-12-05 12:53:37.746542+03
+33	social_django	0006_partial	2019-12-05 12:53:37.905276+03
+34	social_django	0007_code_timestamp	2019-12-05 12:53:38.015612+03
+35	social_django	0008_partial_timestamp	2019-12-05 12:53:38.13578+03
+36	social_django	0004_auto_20160423_0400	2019-12-05 12:53:38.373063+03
+37	social_django	0003_alter_email_max_length	2019-12-05 12:53:38.52287+03
+38	social_django	0002_add_related_name	2019-12-05 12:53:38.661171+03
+39	social_django	0001_initial	2019-12-05 12:53:38.802539+03
+40	social_django	0005_auto_20160727_2333	2019-12-05 12:53:38.945392+03
+41	users	0004_auto_20200304_1425	2020-03-04 17:25:07.8216+03
+42	users	0005_auto_20200304_1428	2020-03-04 17:29:06.162234+03
+43	users	0006_auto_20200304_1452	2020-03-04 17:53:05.251525+03
+44	users	0004_auto_20200305_1218	2020-03-05 15:18:23.69629+03
+45	users	0005_auto_20200311_1254	2020-03-11 15:54:09.990234+03
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+hejy5l6g1ir3jkuznuxpevq6as13i2yo	ZDY1NzNhYzU0ZDA5MTViODRmZGU3NjlkYmRiYmI1ZGI0NmEzNDU1Yzp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI0NjM2ZThkMDI2M2U2OTNlMTVhN2RlY2I4ODVmMmE4YzAyZTIyY2NjIn0=	2020-03-19 15:08:44.081774+03
+tvy1qdokuemcx1wvzc458lj4bgdmwf9r	OTE2MDFhNTE1MjA2ZGM0MTE2OTIyYWJhNzYxNzdlYTUzZjVmMmQ0Mzp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZGZmMmM3MTI3MDgyNzcxMDQ2M2Q2MzEwZDgyZjg4Y2RhZmZiYmIxIn0=	2020-03-28 00:46:03.823503+03
+xqpqagwaprwb4uddhkl2m4mi3ha22rhb	OTE2MDFhNTE1MjA2ZGM0MTE2OTIyYWJhNzYxNzdlYTUzZjVmMmQ0Mzp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZGZmMmM3MTI3MDgyNzcxMDQ2M2Q2MzEwZDgyZjg4Y2RhZmZiYmIxIn0=	2020-03-28 00:46:23.435063+03
+ppc10rn8c4ihqj4fl0v7uqlrkovi0x63	YjRkZWEyZjkxYzFiNWJhZWRhNGM2NDJmNDUxZjE5MGJhMjQyYThkYjp7Il9hdXRoX3VzZXJfaWQiOiIxNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYzUwYjA3ODEyNDI4MThjNTA0MmRiMTljMTgyMjEyMGE2N2FiMTY2NyJ9	2020-03-28 00:56:40.537559+03
+hxcc9z6xmcygza25xkyw5pq8yr2n0t8u	OTE2MDFhNTE1MjA2ZGM0MTE2OTIyYWJhNzYxNzdlYTUzZjVmMmQ0Mzp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZGZmMmM3MTI3MDgyNzcxMDQ2M2Q2MzEwZDgyZjg4Y2RhZmZiYmIxIn0=	2020-03-28 00:57:39.984919+03
+i7ii4srusty2pgvg7s0h3sbuhsu7lts3	YjRkZWEyZjkxYzFiNWJhZWRhNGM2NDJmNDUxZjE5MGJhMjQyYThkYjp7Il9hdXRoX3VzZXJfaWQiOiIxNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYzUwYjA3ODEyNDI4MThjNTA0MmRiMTljMTgyMjEyMGE2N2FiMTY2NyJ9	2020-03-28 01:06:16.886885+03
+ldqhzw3tw3xoardgg30vyzybymsgxas6	YjRkZWEyZjkxYzFiNWJhZWRhNGM2NDJmNDUxZjE5MGJhMjQyYThkYjp7Il9hdXRoX3VzZXJfaWQiOiIxNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYzUwYjA3ODEyNDI4MThjNTA0MmRiMTljMTgyMjEyMGE2N2FiMTY2NyJ9	2020-03-28 01:07:02.062919+03
+6uvju98n1i1regcaxlg3cn85vwa143bv	YjRkZWEyZjkxYzFiNWJhZWRhNGM2NDJmNDUxZjE5MGJhMjQyYThkYjp7Il9hdXRoX3VzZXJfaWQiOiIxNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYzUwYjA3ODEyNDI4MThjNTA0MmRiMTljMTgyMjEyMGE2N2FiMTY2NyJ9	2020-03-28 01:48:22.389006+03
+apmgohy0pvj7u0ult1x8g58hkr4pbe1b	YjRkZWEyZjkxYzFiNWJhZWRhNGM2NDJmNDUxZjE5MGJhMjQyYThkYjp7Il9hdXRoX3VzZXJfaWQiOiIxNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYzUwYjA3ODEyNDI4MThjNTA0MmRiMTljMTgyMjEyMGE2N2FiMTY2NyJ9	2020-03-28 03:00:52.17091+03
+l23ufu43sqp1gzcrgds57qvjkeudb075	YjRkZWEyZjkxYzFiNWJhZWRhNGM2NDJmNDUxZjE5MGJhMjQyYThkYjp7Il9hdXRoX3VzZXJfaWQiOiIxNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYzUwYjA3ODEyNDI4MThjNTA0MmRiMTljMTgyMjEyMGE2N2FiMTY2NyJ9	2020-03-28 18:14:44.115364+03
+cyrw7hqgjt54onqoq37cn85jc7yreytt	OTE2MDFhNTE1MjA2ZGM0MTE2OTIyYWJhNzYxNzdlYTUzZjVmMmQ0Mzp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZGZmMmM3MTI3MDgyNzcxMDQ2M2Q2MzEwZDgyZjg4Y2RhZmZiYmIxIn0=	2020-04-14 15:35:36.632916+03
+n6ou6nd1oitbq7vns5gvksuefh6mirg7	OTE2MDFhNTE1MjA2ZGM0MTE2OTIyYWJhNzYxNzdlYTUzZjVmMmQ0Mzp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZGZmMmM3MTI3MDgyNzcxMDQ2M2Q2MzEwZDgyZjg4Y2RhZmZiYmIxIn0=	2020-05-04 14:41:26.69243+03
+5sglnzrcvvfx330c2u0gb8ut3cl9o8ba	OTE2MDFhNTE1MjA2ZGM0MTE2OTIyYWJhNzYxNzdlYTUzZjVmMmQ0Mzp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZGZmMmM3MTI3MDgyNzcxMDQ2M2Q2MzEwZDgyZjg4Y2RhZmZiYmIxIn0=	2020-05-05 21:09:54.931266+03
+\.
+
+
+--
+-- Data for Name: social_auth_association; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.social_auth_association (id, server_url, handle, secret, issued, lifetime, assoc_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: social_auth_code; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.social_auth_code (id, email, code, verified, "timestamp") FROM stdin;
+\.
+
+
+--
+-- Data for Name: social_auth_nonce; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.social_auth_nonce (id, server_url, "timestamp", salt) FROM stdin;
+\.
+
+
+--
+-- Data for Name: social_auth_partial; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.social_auth_partial (id, token, next_step, backend, data, "timestamp") FROM stdin;
+\.
+
+
+--
+-- Data for Name: social_auth_usersocialauth; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.social_auth_usersocialauth (id, provider, uid, extra_data, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_member; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.users_member (id, new_messages, chat_id, last_read_message_id, user_id) FROM stdin;
+14	f	30	28	14
+15	f	30	28	15
+16	f	31	29	14
+17	f	31	29	15
+18	t	30	28	6
+19	f	32	\N	6
+20	f	32	\N	14
+21	f	32	\N	17
+\.
+
+
+--
+-- Data for Name: users_user; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.users_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, nick, avatar) FROM stdin;
+19	pbkdf2_sha256$150000$z3wA1cw3X8yI$P2+yllX1JUUCWTcagrWBOY77D8/D+wa4sd+/12uH30A=	\N	f	user_12321	name1	name2	qa@ma.ru	f	t	2020-04-20 18:29:34.071488+03	user_123321	
+6	pbkdf2_sha256$150000$0FndfYe36sM6$1Gq4nl43juIPgbKXPp5a2/FZJ3dhXHCMLNZCkkJwwII=	2020-04-21 21:09:54.855652+03	t	tanya_new			ghgh@mail.ru	t	t	2020-03-11 16:10:08.114299+03		
+15	pbkdf2_sha256$150000$vIX2Q8frcmo1$wb/HoLdvOCf1clIymSNERiHe9kVq9s1VHrLPfgSi34Y=	\N	f	user_2	name_user_2	surename_user_2		f	t	2020-03-13 21:19:29.700448+03	user_2	
+16	pbkdf2_sha256$150000$lMSgv0BCPVrn$ICA73dk0GhRvy3GiwOba+b0UusqyxbaRfOV6buFvw5E=	\N	f	user_3	user_3_name	user3_surname		f	t	2020-03-14 01:22:36.730663+03	user_3	
+17	pbkdf2_sha256$150000$3qERsPzXGy1Y$7XSFCP10TWK8mUpobYRVI72vds8dthbkJaygb7m3Qpo=	\N	f	user_4	user_4_name	user4_surname		f	t	2020-03-14 01:25:40.457444+03	user_4	
+14	pbkdf2_sha256$150000$wny1sPH53Ac3$375V8YlFaoJzhrMpjGo9vv6d3gOwtHbtZy7VzqreGKM=	2020-03-14 18:14:43.946556+03	f	user_1	name_user_1	surename_user_1		f	t	2020-03-13 21:19:06.921637+03	user_1	
+18	test	\N	f	user_11				f	t	2020-04-20 01:18:43+03	user_1	
+\.
+
+
+--
+-- Data for Name: users_user_groups; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.users_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: tanya_m
+--
+
+COPY public.users_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 60, true);
+
+
+--
+-- Name: chats_attachment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.chats_attachment_id_seq', 17, true);
+
+
+--
+-- Name: chats_chat_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.chats_chat_id_seq', 33, true);
+
+
+--
+-- Name: chats_message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.chats_message_id_seq', 30, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 80, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 15, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 45, true);
+
+
+--
+-- Name: social_auth_association_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.social_auth_association_id_seq', 1, false);
+
+
+--
+-- Name: social_auth_code_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.social_auth_code_id_seq', 1, false);
+
+
+--
+-- Name: social_auth_nonce_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.social_auth_nonce_id_seq', 1, false);
+
+
+--
+-- Name: social_auth_partial_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.social_auth_partial_id_seq', 1, false);
+
+
+--
+-- Name: social_auth_usersocialauth_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.social_auth_usersocialauth_id_seq', 1, false);
+
+
+--
+-- Name: users_member_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.users_member_id_seq', 21, true);
+
+
+--
+-- Name: users_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.users_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.users_user_id_seq', 19, true);
+
+
+--
+-- Name: users_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tanya_m
+--
+
+SELECT pg_catalog.setval('public.users_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chats_attachment chats_attachment_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_attachment
+    ADD CONSTRAINT chats_attachment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chats_chat chats_chat_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_chat
+    ADD CONSTRAINT chats_chat_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chats_message chats_message_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_message
+    ADD CONSTRAINT chats_message_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: social_auth_association social_auth_association_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_association
+    ADD CONSTRAINT social_auth_association_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: social_auth_association social_auth_association_server_url_handle_078befa2_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_association
+    ADD CONSTRAINT social_auth_association_server_url_handle_078befa2_uniq UNIQUE (server_url, handle);
+
+
+--
+-- Name: social_auth_code social_auth_code_email_code_801b2d02_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_code
+    ADD CONSTRAINT social_auth_code_email_code_801b2d02_uniq UNIQUE (email, code);
+
+
+--
+-- Name: social_auth_code social_auth_code_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_code
+    ADD CONSTRAINT social_auth_code_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: social_auth_nonce social_auth_nonce_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_nonce
+    ADD CONSTRAINT social_auth_nonce_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: social_auth_nonce social_auth_nonce_server_url_timestamp_salt_f6284463_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_nonce
+    ADD CONSTRAINT social_auth_nonce_server_url_timestamp_salt_f6284463_uniq UNIQUE (server_url, "timestamp", salt);
+
+
+--
+-- Name: social_auth_partial social_auth_partial_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_partial
+    ADD CONSTRAINT social_auth_partial_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: social_auth_usersocialauth social_auth_usersocialauth_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_usersocialauth
+    ADD CONSTRAINT social_auth_usersocialauth_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: social_auth_usersocialauth social_auth_usersocialauth_provider_uid_e6b5e668_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_usersocialauth
+    ADD CONSTRAINT social_auth_usersocialauth_provider_uid_e6b5e668_uniq UNIQUE (provider, uid);
+
+
+--
+-- Name: users_member users_member_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_member
+    ADD CONSTRAINT users_member_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_user_groups users_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_groups
+    ADD CONSTRAINT users_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_user_groups users_user_groups_user_id_group_id_b88eab82_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_groups
+    ADD CONSTRAINT users_user_groups_user_id_group_id_b88eab82_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: users_user users_user_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user
+    ADD CONSTRAINT users_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_user_user_permissions users_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_user_permissions
+    ADD CONSTRAINT users_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_user_user_permissions users_user_user_permissions_user_id_permission_id_43338c45_uniq; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_user_permissions
+    ADD CONSTRAINT users_user_user_permissions_user_id_permission_id_43338c45_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: users_user users_user_username_key; Type: CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user
+    ADD CONSTRAINT users_user_username_key UNIQUE (username);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: chats_attachment_chat_id_298338fd; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX chats_attachment_chat_id_298338fd ON public.chats_attachment USING btree (chat_id);
+
+
+--
+-- Name: chats_attachment_message_id_5648db92; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX chats_attachment_message_id_5648db92 ON public.chats_attachment USING btree (message_id);
+
+
+--
+-- Name: chats_attachment_user_id_174b0405; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX chats_attachment_user_id_174b0405 ON public.chats_attachment USING btree (user_id);
+
+
+--
+-- Name: chats_message_chat_id_f3080004; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX chats_message_chat_id_f3080004 ON public.chats_message USING btree (chat_id);
+
+
+--
+-- Name: chats_message_user_id_023d6a3e; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX chats_message_user_id_023d6a3e ON public.chats_message USING btree (user_id);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: social_auth_code_code_a2393167; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX social_auth_code_code_a2393167 ON public.social_auth_code USING btree (code);
+
+
+--
+-- Name: social_auth_code_code_a2393167_like; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX social_auth_code_code_a2393167_like ON public.social_auth_code USING btree (code varchar_pattern_ops);
+
+
+--
+-- Name: social_auth_code_timestamp_176b341f; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX social_auth_code_timestamp_176b341f ON public.social_auth_code USING btree ("timestamp");
+
+
+--
+-- Name: social_auth_partial_timestamp_50f2119f; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX social_auth_partial_timestamp_50f2119f ON public.social_auth_partial USING btree ("timestamp");
+
+
+--
+-- Name: social_auth_partial_token_3017fea3; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX social_auth_partial_token_3017fea3 ON public.social_auth_partial USING btree (token);
+
+
+--
+-- Name: social_auth_partial_token_3017fea3_like; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX social_auth_partial_token_3017fea3_like ON public.social_auth_partial USING btree (token varchar_pattern_ops);
+
+
+--
+-- Name: social_auth_usersocialauth_user_id_17d28448; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX social_auth_usersocialauth_user_id_17d28448 ON public.social_auth_usersocialauth USING btree (user_id);
+
+
+--
+-- Name: users_member_chat_id_401d6d73; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_member_chat_id_401d6d73 ON public.users_member USING btree (chat_id);
+
+
+--
+-- Name: users_member_last_read_message_id_cebfeb8b; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_member_last_read_message_id_cebfeb8b ON public.users_member USING btree (last_read_message_id);
+
+
+--
+-- Name: users_member_user_id_b4cd9a3f; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_member_user_id_b4cd9a3f ON public.users_member USING btree (user_id);
+
+
+--
+-- Name: users_user_groups_group_id_9afc8d0e; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_user_groups_group_id_9afc8d0e ON public.users_user_groups USING btree (group_id);
+
+
+--
+-- Name: users_user_groups_user_id_5f6f5a90; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_user_groups_user_id_5f6f5a90 ON public.users_user_groups USING btree (user_id);
+
+
+--
+-- Name: users_user_user_permissions_permission_id_0b93982e; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_user_user_permissions_permission_id_0b93982e ON public.users_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: users_user_user_permissions_user_id_20aca447; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_user_user_permissions_user_id_20aca447 ON public.users_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: users_user_username_06e46fe6_like; Type: INDEX; Schema: public; Owner: tanya_m
+--
+
+CREATE INDEX users_user_username_06e46fe6_like ON public.users_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: chats_attachment chats_attachment_chat_id_298338fd_fk_chats_chat_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_attachment
+    ADD CONSTRAINT chats_attachment_chat_id_298338fd_fk_chats_chat_id FOREIGN KEY (chat_id) REFERENCES public.chats_chat(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: chats_attachment chats_attachment_message_id_5648db92_fk_chats_message_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_attachment
+    ADD CONSTRAINT chats_attachment_message_id_5648db92_fk_chats_message_id FOREIGN KEY (message_id) REFERENCES public.chats_message(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: chats_attachment chats_attachment_user_id_174b0405_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_attachment
+    ADD CONSTRAINT chats_attachment_user_id_174b0405_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: chats_message chats_message_chat_id_f3080004_fk_chats_chat_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_message
+    ADD CONSTRAINT chats_message_chat_id_f3080004_fk_chats_chat_id FOREIGN KEY (chat_id) REFERENCES public.chats_chat(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: chats_message chats_message_user_id_023d6a3e_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.chats_message
+    ADD CONSTRAINT chats_message_user_id_023d6a3e_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: social_auth_usersocialauth social_auth_usersocialauth_user_id_17d28448_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.social_auth_usersocialauth
+    ADD CONSTRAINT social_auth_usersocialauth_user_id_17d28448_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_member users_member_chat_id_401d6d73_fk_chats_chat_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_member
+    ADD CONSTRAINT users_member_chat_id_401d6d73_fk_chats_chat_id FOREIGN KEY (chat_id) REFERENCES public.chats_chat(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_member users_member_last_read_message_id_cebfeb8b_fk_chats_message_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_member
+    ADD CONSTRAINT users_member_last_read_message_id_cebfeb8b_fk_chats_message_id FOREIGN KEY (last_read_message_id) REFERENCES public.chats_message(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_member users_member_user_id_b4cd9a3f_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_member
+    ADD CONSTRAINT users_member_user_id_b4cd9a3f_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_user_groups users_user_groups_group_id_9afc8d0e_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_groups
+    ADD CONSTRAINT users_user_groups_group_id_9afc8d0e_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_user_groups users_user_groups_user_id_5f6f5a90_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_groups
+    ADD CONSTRAINT users_user_groups_user_id_5f6f5a90_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_user_user_permissions users_user_user_perm_permission_id_0b93982e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_user_permissions
+    ADD CONSTRAINT users_user_user_perm_permission_id_0b93982e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_user_user_permissions users_user_user_permissions_user_id_20aca447_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: tanya_m
+--
+
+ALTER TABLE ONLY public.users_user_user_permissions
+    ADD CONSTRAINT users_user_user_permissions_user_id_20aca447_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
