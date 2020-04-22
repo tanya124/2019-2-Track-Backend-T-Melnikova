@@ -5,6 +5,7 @@ from chats.models import Chat
 from django.contrib.auth import authenticate, login, logout
 from . import forms
 
+
 @login_required
 def home(request):
     return render(request, 'home.html')

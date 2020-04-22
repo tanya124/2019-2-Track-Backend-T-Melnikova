@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'sslserver',
     'crispy_forms',
     'rest_framework',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -161,6 +162,8 @@ AUTHENTICATION_BACKENDS =[
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
