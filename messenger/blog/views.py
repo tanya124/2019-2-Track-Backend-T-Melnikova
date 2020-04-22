@@ -4,6 +4,7 @@ from django.http import HttpResponseNotAllowed, JsonResponse
 from chats.models import Chat
 from django.contrib.auth import authenticate, login, logout
 from . import forms
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
@@ -12,6 +13,7 @@ def home(request):
 
 
 #fields = ('username', 'nick', 'first_name', 'last_name', 'email', 'password1', 'password2',)
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
         form = forms.SignUpForm(request.POST)

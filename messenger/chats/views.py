@@ -11,6 +11,7 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import ChatSerializer, MessageSerializer, AttachmentSerializer
 from users.serializers import UserSerializer, MemberSerializer
 from rest_framework.decorators import action
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
@@ -40,7 +41,7 @@ def chat_page(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-#добавить обработку ошибок fields = ['is_group_chat', 'topic', 'last_message']
+@csrf_exempt
 @login_required
 def create_chat(request):
     if request.method == 'POST':
@@ -64,7 +65,7 @@ def create_chat(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
-
+@csrf_exempt
 @login_required
 def add_member_to_chat(request):
     if request.method == 'POST':
@@ -78,6 +79,7 @@ def add_member_to_chat(request):
         return HttpResponseNotAllowed(['POST'])
 
 #fields = ['chat', 'content']
+@csrf_exempt
 @login_required
 def send_message(request):
     if request.method == 'POST':
@@ -107,7 +109,7 @@ def get_list_message(request, chat_id):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-
+@csrf_exempt
 @login_required
 def read_message(request):
     if request.method == 'POST':
@@ -137,6 +139,7 @@ def upload_file(filename):
     key = 'attachment/' + file_descriptor.name.split('/')[-1]
     return s3_client.put_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=key, Body=file_descriptor.read())
 
+@csrf_exempt
 @login_required
 def attach_file(request):
     if request.method == 'POST':
