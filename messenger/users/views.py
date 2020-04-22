@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from .serializers import UserSerializer
+from django.views.decorators.cache import cache_page
+
 
 
 @login_required
@@ -16,6 +18,7 @@ def start_page(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+@cache_page(60 * 15)
 @login_required
 def profile(request):
     if request.method == 'GET':
@@ -25,6 +28,7 @@ def profile(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+@cache_page(60 * 15)
 @login_required
 def search_user(request, nick):
     if request.method == 'GET':

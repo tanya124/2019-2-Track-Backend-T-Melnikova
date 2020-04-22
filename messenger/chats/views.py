@@ -12,6 +12,7 @@ from .serializers import ChatSerializer, MessageSerializer, AttachmentSerializer
 from users.serializers import UserSerializer, MemberSerializer
 from rest_framework.decorators import action
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_page
 
 
 @login_required
@@ -31,6 +32,7 @@ def contacts_list(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+@cache_page(60 * 15)
 @login_required
 def chat_page(request):
     if request.method == 'GET':
@@ -99,6 +101,7 @@ def send_message(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+@cache_page(60 * 15)
 @login_required
 def get_list_message(request, chat_id):
     if request.method == 'GET':
