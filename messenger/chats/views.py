@@ -13,6 +13,7 @@ from users.serializers import UserSerializer, MemberSerializer
 from rest_framework.decorators import action
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_page
+from cent import Client
 
 
 @login_required
@@ -55,7 +56,6 @@ def create_chat(request):
             topic = request.POST.get('topic', 'new chat')
             last_message = request.POST.get('last_message', 'empty')
             cur_user = request.user
-            #cur_user = User.objects.get(id=6)
             companion = User.objects.get(username=companion_name)
 
             new_chat = Chat.objects.create(is_group_chat=is_group_chat, topic=topic, last_message=last_message)
@@ -95,6 +95,7 @@ def send_message(request):
             user = User.objects.get(id=user_id)
 
             new_message = Message.objects.create(chat=chat, user=user, content=content)
+            CentrifugeClient.publish(new_message)
             return JsonResponse({'msg' : new_message.content, 'user': new_message.user_id, 'chat':new_message.chat_id})
         else:
             return JsonResponse({'errors':form.errors}, status=400)
@@ -102,12 +103,14 @@ def send_message(request):
         return HttpResponseNotAllowed(['POST'])
 
 @cache_page(60 * 15)
-@login_required
+# @login_required
 def get_list_message(request, chat_id):
     if request.method == 'GET':
-        messages = Message.objects.values('chat', 'user', 'content', 'added_at')
+        messages = Message.objects.all()
         messages_from_chat = messages.filter(chat = chat_id)
-        return JsonResponse({'messages': list(messages_from_chat)})
+        # return JsonResponse({'messages': list(messages_from_chat)})
+        serializer = MessageSerializer(messages_from_chat, many=True)
+        return Response({"member": serializer.data})
 
     else:
         return HttpResponseNotAllowed(['GET'])
@@ -198,20 +201,24 @@ class ChatViewSet(ModelViewSet):
     @action(methods=['post'], detail=False)
     def create_chat(self, request):
         form = ChatForm(request.POST)
-        companion_name = request.POST['companion_name']
+        companion_name = request.POST.get('companion_name')
+        print(companion_name)
 
         if form.is_valid():
             is_group_chat = request.POST.get('is_group_chat')
             topic = request.POST.get('topic', 'new chat')
             last_message = request.POST.get('last_message', 'empty')
             cur_user = request.user
-            companion = User.objects.get(username=companion_name)
+            companion = User.objects.filter(username=companion_name).first()
+            print(companion.username)
 
             new_chat = Chat.objects.create(is_group_chat=is_group_chat, topic=topic, last_message=last_message)
             Member.objects.create(user=cur_user, chat=new_chat, new_messages=0)
             Member.objects.create(user=companion, chat=new_chat, new_messages=0)
             serializer = ChatSerializer(new_chat, many=False)
-            return Response({"chat": serializer.data})
+            response = Response({"chat": serializer.data})
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
         else:
             return JsonResponse({'errors': form.errors}, status=400)
 
@@ -240,6 +247,13 @@ class ChatViewSet(ModelViewSet):
 
             new_message = Message.objects.create(chat=chat, user=user, content=content)
             serializer = MessageSerializer(new_message, many=False)
+            msg = {
+                'id': new_message.id,
+                'user': new_message.user.id,
+                'content':new_message.content,
+                'added_at': new_message.added_at
+            }
+            CentrifugeClient.publish(serializer.data)
             return Response({"message": serializer.data})
         else:
             return JsonResponse({'errors': form.errors}, status=400)
@@ -247,8 +261,8 @@ class ChatViewSet(ModelViewSet):
 
     @action(methods=['get'], detail=False)
     def get_list_message(self, request):
-        chat_id = request.GET['chat_id']
-        messages = Message.objects.values('chat', 'user', 'content', 'added_at')
+        chat_id = request.GET.get('chat_id')
+        messages = Message.objects.all().order_by('added_at')
         messages_from_chat = messages.filter(chat=chat_id)
         serializer = MessageSerializer(messages_from_chat, many=True)
         return Response({"message": serializer.data})
@@ -280,3 +294,23 @@ class ChatViewSet(ModelViewSet):
             return Response({"attachment": serializer.data})
         else:
             return JsonResponse({'errors': form.errors}, status=400)
+
+class CentrifugeClient():
+    url = 'http://localhost:8001'
+    api_key = '744f7787-990a-4190-82c8-6a7f638ac492'
+    channel = 'centrifuge'
+    client = Client(url, api_key, timeout=1)
+
+    @classmethod
+    def publish(cls, message):
+        data = {
+            'status': 'ok',
+            'message': {
+                'id': message['id'],
+                'user': message['user'],
+                'content': message['content'],
+                'added_at': message['added_at'],
+                #'chat': message['chat'],
+            }
+        }
+        cls.client.publish(cls.channel, data)

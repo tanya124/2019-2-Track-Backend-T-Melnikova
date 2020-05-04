@@ -2,13 +2,16 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponseNotAllowed
 from django.contrib.auth.decorators import login_required
-from .models import User
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
-from .serializers import UserSerializer
 from django.views.decorators.cache import cache_page
+from rest_framework import viewsets, permissions, generics
 
+
+from knox.models import AuthToken
+from .serializers import (CreateUserSerializer,
+                          UserSerializer, LoginUserSerializer)
+from .models import User
 
 
 @login_required
@@ -39,8 +42,9 @@ def search_user(request, nick):
         return HttpResponseNotAllowed(['GET'])
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = UserSerializer
 
     #http://127.0.0.1:8000/users/api/users/profile/
@@ -58,3 +62,37 @@ class UserViewSet(ModelViewSet):
         user = User.objects.filter(nick__icontains=nick)
         serializer = UserSerializer(user, many=True)
         return Response({"user": serializer.data})
+
+
+class RegistrationAPI(generics.GenericAPIView):
+    serializer_class = CreateUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)[1]
+        })
+
+
+class LoginAPI(generics.GenericAPIView):
+    serializer_class = LoginUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)[1]
+        })
+
+
+class UserAPI(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user

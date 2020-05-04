@@ -11,7 +11,7 @@ class ChatSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'content', 'added_at', 'user')
+        fields = ('id', 'chat', 'content', 'added_at', 'user')
 
 
 class AttachmentSerializer(serializers.ModelSerializer):

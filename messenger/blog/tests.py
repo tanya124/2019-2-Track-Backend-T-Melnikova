@@ -1,5 +1,5 @@
 import json
-from django.test import TestCase, Client
+from django.test import TestCase, Client, LiveServerTestCase
 from users.models import User
 from django.urls import reverse
 from selenium import webdriver
@@ -55,7 +55,7 @@ class BlogTest(TestCase):
     #     self.assertTrue(response.status_code == 200)
 
 
-class SileniumTest(TestCase):
+class SileniumTest(LiveServerTestCase):
     def setUp(self):
         self.webdriver = webdriver.Chrome('/home/tanya/chromedriver')
         self.webdriver.implicitly_wait(10)

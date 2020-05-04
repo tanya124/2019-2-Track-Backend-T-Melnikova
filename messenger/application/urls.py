@@ -32,4 +32,5 @@ urlpatterns = [
     #path('register/', views.RegisterFormView.as_view(), name='register'),
     path('register/', register, name='register'),
     path('captcha/', include('captcha.urls')),
+    path('auth/', include('knox.urls')),
 ]
